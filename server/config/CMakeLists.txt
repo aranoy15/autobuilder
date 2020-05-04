@@ -1,0 +1,1 @@
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/serversetting.lua DESTINATION ${CMAKE_BINARY_DIR}/config)

@@ -1,0 +1,60 @@
+[requires]
+boost/1.71.0@conan/stable
+cpprestsdk/2.10.15@bincrafters/stable
+zlib/1.2.11@conan/stable
+openssl/1.1.1g
+sqlite3/3.31.1
+lua/5.3.5
+cpp-jwt/1.2
+rttr/0.9.6
+
+[options]
+boost:shared=False
+cpprestsdk:shared=False
+openssl:shared=False
+zlib:shared=False
+sqlite3:shared=False
+lua:shared=False
+rttr:shared=False
+
+#boost option
+bosst:magic_autolink=True
+boost:without_contract=True
+boost:without_math=True
+boost:without_wave=True
+boost:without_container=True
+boost:without_contract=True
+boost:without_exception=True
+boost:without_graph=True
+boost:without_iostreams=True
+boost:without_locale=True
+boost:without_log=True
+boost:without_program_options=True
+boost:without_random=False
+boost:without_regex=False
+boost:without_mpi=True
+boost:without_serialization=True
+boost:without_coroutine=True
+boost:without_fiber=True
+boost:without_context=True
+boost:without_timer=True
+boost:without_thread=False
+boost:without_chrono=False
+boost:without_date_time=False
+boost:without_atomic=False
+boost:without_filesystem=False
+boost:without_system=False
+boost:without_graph_parallel=True
+boost:without_python=True
+boost:without_stacktrace=True
+boost:without_test=True
+boost:without_type_erasure=True
+
+[generators]
+cmake
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./lib
+lib, *.so* -> ./lib
+lib, *.a -> ./lib
