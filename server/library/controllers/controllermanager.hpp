@@ -2,6 +2,9 @@
 
 #include <library/controllers/basecontroller.hpp>
 #include <stdafx.h>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
 
 namespace controllers
 {
@@ -57,3 +60,15 @@ inline void ControllerManager::reg(const std::string& absolute_uri)
 	}
 }
 }  // namespace controllers
+
+inline std::ostream& operator<<(std::ostream& stream, const controllers::ControllerManager::request_type& request)
+{
+	auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
+	stream << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X") << " " << request.method() << " "
+	       << request.http_version().to_utf8string() << " "
+	       << request.absolute_uri().to_string();
+
+	return stream;
+}

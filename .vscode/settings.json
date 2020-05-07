@@ -2,6 +2,7 @@
     "files.associations": {
         "*.ipp": "cpp",
         "*.dat": "cpp",
-        "registration": "cpp"
+        "registration": "cpp",
+        "ostream": "cpp"
     }
 }

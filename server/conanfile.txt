@@ -2,6 +2,7 @@
 boost/1.71.0@conan/stable
 cpprestsdk/2.10.15@bincrafters/stable
 zlib/1.2.11@conan/stable
+sqlite_orm/1.4@bincrafters/stable
 openssl/1.1.1g
 sqlite3/3.31.1
 lua/5.3.5

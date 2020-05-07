@@ -2,30 +2,17 @@
 #include <stdafx.h>
 #include <memory>
 #include <logic/controllers/usercontroller.hpp>
-//#include <logic/controllers/postscontrolller.hpp>
+#include <logic/controllers/postscontrolller.hpp>
 #include <library/controllers/controllermanager.hpp>
 #include <kaguya/kaguya.hpp>
+
+#include <boost/process.hpp>
 
 using namespace web;
 using namespace http;
 using namespace utility;
 using namespace http::experimental::listener;
 using namespace controllers;
-
-/*
-void initialize(const string_t& address)
-{
-    ControllerPool::reg<UserController>(address, "user");
-    ControllerPool::reg<PostsController>(address, "posts");
-
-    ControllerPool::start();
-}
-
-void shutdown()
-{
-    ControllerPool::stop();
-}
-*/
 
 struct ServerSettings
 {
@@ -61,9 +48,24 @@ ServerSettings get_settings()
     return ServerSettings();
 }
 
+void test_func()
+{
+    using namespace boost::process;
+
+    ipstream pipe_stream;
+    child c("gcc --version", std_out > pipe_stream);
+
+    std::string line;
+
+    while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
+        std::cerr << line << std::endl;
+
+    c.wait();
+}
+
 int main()
 {
-    ServerSettings settings = get_settings();
+	ServerSettings settings = get_settings();
 
     utility::string_t port = settings.port;
     utility::string_t address = settings.address;
@@ -72,14 +74,11 @@ int main()
     uri_builder uri(address + ":" + port);
 
     ucout << "Complete address: " << uri.to_string() << std::endl;
-    //uri.append(version);
-
-    //initialize(uri.to_string());
 
     ControllerManager manager(std::make_shared<http_listener>(uri.to_string()));
 
     manager.reg<UserController>("/user");
-    //manager.reg<PostsController>("/posts");
+    manager.reg<PostsController>("/posts");
 
     manager.start();
 

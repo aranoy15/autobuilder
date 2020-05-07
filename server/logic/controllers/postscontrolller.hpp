@@ -11,9 +11,9 @@ public:
     virtual ~PostsController();
 
 protected:
-    void get_handle(web::http::http_request request) override;
+    void get_handle(web::http::http_request request);
 
 private:
-    void test_database();
+    //void test_database();
 };
 }

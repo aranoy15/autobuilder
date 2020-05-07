@@ -7,6 +7,8 @@ using namespace utility;
 using namespace http;
 using namespace web::http::experimental::listener;
 
+
+
 namespace controllers
 {
 ControllerManager::ControllerManager(const ControllerManager::listener_ptr& listener) : _listener(listener)
@@ -32,9 +34,7 @@ ControllerManager::~ControllerManager() {}
 
 void ControllerManager::request_handle(request_type request)
 {
-	ucout << "Request info: " << request.method() << " "
-	      << request.http_version().to_utf8string() << " "
-	      << request.absolute_uri().to_string() << std::endl;
+    ucout << request << std::endl;
 
 	auto iterator = find(request.absolute_uri().to_string());
 
@@ -58,12 +58,20 @@ bool ControllerManager::exists(const string_t& absolute_uri)
 
 void ControllerManager::start()
 {
-    _listener->open().wait();
+    try {
+        _listener->open().wait();
+    } catch (const std::exception& err) {
+		ucout << "Exception while start listener: " << err.what() << std::endl;
+	}
 }
 
 void ControllerManager::stop()
 {
-    _listener->close().wait();
+    try {
+        _listener->close().wait();
+    } catch (const std::exception& err) {
+        ucout << "Exception while stop listener: " << err.what() << std::endl;
+    }
 }
 
 }

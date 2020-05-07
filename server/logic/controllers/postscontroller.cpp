@@ -2,7 +2,7 @@
 #include <thread>
 #include <chrono>
 #include <jwt/jwt.hpp>
-#include <sqlite_modern_cpp.h>
+//#include <sqlite_modern_cpp.h>
 #include <logic/utils/isauthorized.hpp>
 
 using namespace std;
@@ -13,7 +13,13 @@ using namespace web::http::experimental::listener;
 
 namespace controllers
 {
-PostsController::PostsController() : BaseController() {}
+PostsController::PostsController() : BaseController() 
+{
+    using namespace std;
+    using namespace std::placeholders;
+
+    _callbacks.insert(BaseController::pair_type(methods::GET, bind(&PostsController::get_handle, this, _1)));
+}
 
 PostsController::~PostsController() {}
 
@@ -29,8 +35,6 @@ void PostsController::get_handle(http_request request)
 
     auto enc_str = obj.signature();
 
-    ucout << "Posts handle GET command: " << request.to_string();
-
     auto uri_query = request.relative_uri().query();
 
     auto paths = http::uri::split_query(http::uri::decode(uri_query));
@@ -39,20 +43,12 @@ void PostsController::get_handle(http_request request)
 
     response.headers().add("set-cookie", "token=" + obj.signature());
 
-	pplx::task<void> db_task([this]() { this->test_database(); });
+	//pplx::task<void> db_task([this]() { this->test_database(); });
 
 	request.reply(response);
 }
 
 /*
-class UserModel : public BaseModel
-{
-
-};
-*/
-
-//#include <boost/uuid/uuid.hpp>
-
 void PostsController::test_database()
 {
     using namespace sqlite;
@@ -82,4 +78,5 @@ void PostsController::test_database()
         ucout << "Database error: " << err.what() << endl;
     }
 }
+*/
 }
